@@ -19,6 +19,7 @@ import { useTheme } from "next-themes";
 import { NotificationDropdown } from "@/components/notifications/notification-dropdown";
 import { useCommandCenter } from "@/components/command/command-provider";
 import { BrandSwitcher, type BrandOption } from "@/components/layout/brand-switcher";
+import { OSSwitcher } from "@/components/layout/os-switcher";
 import { cn } from "@/lib/utils";
 
 function formatBreadcrumb(pathname: string): string {
@@ -155,11 +156,14 @@ export function TopNav() {
           {pageTitle}
         </h1>
 
-        {/* Separator */}
-        {brands.length > 0 && <div className="h-4 w-px bg-border/40 hidden sm:block" />}
-
         {/* Brand Switcher */}
         <BrandSwitcher brands={brands} />
+
+        {/* Separator */}
+        {slug && <div className="h-4 w-px bg-border/40 hidden sm:block" />}
+
+        {/* OS Switcher */}
+        {slug && <OSSwitcher />}
       </div>
 
       {/* ── Right Group: Search + Notifications + Theme + Profile ── */}

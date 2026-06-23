@@ -288,7 +288,7 @@ export function LeadsPipelineView({
                     lead={lead}
                     onDragStart={handleDragStart}
                     onClick={() =>
-                      router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)
+                      router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)
                     }
                   />
                 ))
@@ -322,7 +322,7 @@ export function LeadsPipelineView({
                 lead={lead}
                 onDragStart={handleDragStart}
                 onClick={() =>
-                  router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)
+                  router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)
                 }
               />
             ))}

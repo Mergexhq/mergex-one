@@ -118,7 +118,7 @@ export function LeadsTable({
               return (
                 <div
                   key={lead.id}
-                  onClick={() => router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)}
+                  onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)}
                   className="grid grid-cols-[2fr_1.4fr_1.2fr_1.2fr_1fr_1.2fr_1fr_80px] items-center gap-3 px-4 py-3 hover:bg-muted/20 rounded-lg transition-all group text-xs border border-transparent hover:border-border/30 hover:shadow-xs cursor-pointer"
                 >
                   {/* Company */}
@@ -229,7 +229,7 @@ export function LeadsTable({
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-40 bg-card border-border">
                         <DropdownMenuItem
-                          onClick={() => router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)}
+                          onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)}
                           className="text-xs cursor-pointer flex items-center justify-between"
                         >
                           <span>Open Workspace</span>

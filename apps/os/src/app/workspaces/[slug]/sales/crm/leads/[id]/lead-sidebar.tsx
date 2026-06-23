@@ -225,7 +225,7 @@ export function LeadUtilityGrid({ lead }: { lead: Lead }) {
   };
 
   const handleCopyLink = (proposal: Proposal) => {
-    const url = `${window.location.origin}/workspaces/${slug}/crm/proposals?search=${proposal.proposalNumber}`;
+    const url = `${window.location.origin}/workspaces/${slug}/sales/conversion/proposals?search=${proposal.proposalNumber}`;
     navigator.clipboard.writeText(url);
     toast.success("Proposal link copied to clipboard");
   };
@@ -404,7 +404,7 @@ export function LeadUtilityGrid({ lead }: { lead: Lead }) {
                 size="sm"
                 variant="outline"
                 className="w-full h-8 text-xs font-bold border-border/40"
-                onClick={() => router.push(`/workspaces/${slug}/crm/meetings`)}
+                onClick={() => router.push(`/workspaces/${slug}/sales/conversion/meetings`)}
               >
                 Schedule Meeting
               </Button>
@@ -444,7 +444,7 @@ export function LeadUtilityGrid({ lead }: { lead: Lead }) {
                       variant="ghost"
                       size="sm"
                       className="h-6 text-[10px] font-semibold px-2 text-[#8B5CF6] hover:bg-[#8B5CF6]/5"
-                      onClick={() => router.push(`/workspaces/${slug}/crm/proposals`)}
+                      onClick={() => router.push(`/workspaces/${slug}/sales/conversion/proposals`)}
                     >
                       View
                     </Button>
@@ -490,7 +490,7 @@ export function LeadUtilityGrid({ lead }: { lead: Lead }) {
                 size="sm"
                 variant="outline"
                 className="w-full h-8 text-xs font-bold border-border/40"
-                onClick={() => router.push(`/workspaces/${slug}/crm/proposals`)}
+                onClick={() => router.push(`/workspaces/${slug}/sales/conversion/proposals`)}
               >
                 Create Proposal
               </Button>

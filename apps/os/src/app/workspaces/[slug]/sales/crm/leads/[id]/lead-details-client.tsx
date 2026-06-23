@@ -126,7 +126,7 @@ export function LeadDetailsClient({ leadId }: LeadDetailsClientProps) {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => router.push(`/workspaces/${slug}/crm/leads`)}
+            onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads`)}
             className="text-muted-foreground hover:text-foreground -ml-2 h-8 text-xs font-semibold"
           >
             <ChevronLeft className="h-4 w-4 mr-1" /> Back to Leads
@@ -301,7 +301,7 @@ export function LeadDetailsClient({ leadId }: LeadDetailsClientProps) {
                     size="sm"
                     onClick={() => {
                       if (isReady) {
-                        router.push(`/workspaces/${slug}/crm/meetings`);
+                        router.push(`/workspaces/${slug}/sales/conversion/meetings`);
                       } else {
                         toast.error("Complete all 6 internal checks to unlock launching the discovery meeting.");
                       }

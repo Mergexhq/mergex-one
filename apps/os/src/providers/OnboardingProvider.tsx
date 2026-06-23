@@ -144,14 +144,14 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         toast.success("Walkthroughs reset successfully!");
         // Redirect to dashboard to trigger first login walkthrough
         if (slug) {
-          router.push(`/workspaces/${slug}/dashboard`);
+          router.push(`/workspaces/${slug}/sales/dashboard`);
         }
       }
     } catch (error) {
       console.error("Failed to reset tours:", error);
       toast.success("Walkthroughs reset successfully on client.");
       if (slug) {
-        router.push(`/workspaces/${slug}/dashboard`);
+        router.push(`/workspaces/${slug}/sales/dashboard`);
       }
     }
   }, [slug, router]);
@@ -334,15 +334,15 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     
     // Determine tour based on active path
     let targetTour = "";
-    if (pathname.includes("/crm/leads")) {
+    if (pathname.includes("/sales/crm/leads")) {
       targetTour = "crm";
-    } else if (pathname.endsWith("/dashboard")) {
+    } else if (pathname.endsWith("/sales/dashboard")) {
       targetTour = "dashboard";
-    } else if (pathname.includes("/clients")) {
+    } else if (pathname.includes("/client/clients")) {
       targetTour = "clients";
-    } else if (pathname.includes("/documents")) {
+    } else if (pathname.includes("/people/documents")) {
       targetTour = "documents";
-    } else if (pathname.includes("/knowledge")) {
+    } else if (pathname.includes("/os/knowledge")) {
       targetTour = "knowledge";
     } else if (pathname.includes("/settings")) {
       targetTour = "settings";
@@ -383,7 +383,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     // Check if First Login Walkthrough is needed
     if (firstLogin && !completedTours.includes("first-login")) {
       // Direct user to Dashboard to start the walkthrough
-      const targetPath = `/workspaces/${slug}/dashboard`;
+      const targetPath = `/workspaces/${slug}/sales/dashboard`;
       if (pathname !== targetPath) {
         router.push(targetPath);
       } else {
@@ -395,9 +395,9 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     // Otherwise, check if current page has a module tour that hasn't been completed yet
     if (!firstLogin) {
       const timer = setTimeout(() => {
-        if (pathname.includes("/crm/leads") && !completedTours.includes("crm")) {
+        if (pathname.includes("/sales/crm/leads") && !completedTours.includes("crm")) {
           startTour("crm");
-        } else if (pathname.endsWith("/dashboard") && !completedTours.includes("dashboard")) {
+        } else if (pathname.endsWith("/sales/dashboard") && !completedTours.includes("dashboard")) {
           startTour("dashboard");
         }
       }, 1500); // Wait a bit after load to start automatically so they aren't jarred immediately

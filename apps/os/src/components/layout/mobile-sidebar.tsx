@@ -6,7 +6,7 @@ import { usePathname, useParams } from "next/navigation";
 import { X, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { navGroups } from "@/config/navigation";
+import { osNavigationConfig } from "@/config/navigation";
 
 interface MobileSidebarProps {
   onClose: () => void;
@@ -41,8 +41,14 @@ export function MobileSidebar({ onClose }: MobileSidebarProps) {
   }, [slug]);
 
   const getDynamicHref = (href: string) => {
-    return href.replace(/^\/dashboard/, `/workspaces/${slug}`);
+    if (href.startsWith("/workspaces")) return href;
+    return `/workspaces/${slug}${href}`;
   };
+
+  const segments = pathname.split("/").filter(Boolean);
+  const activeOSKey = segments[2] || "os";
+  const currentOS = osNavigationConfig[activeOSKey] ?? osNavigationConfig.os;
+  const navItems = currentOS.items;
 
   return (
     <div className="flex flex-col h-full bg-card border-r border-border/40">
@@ -70,25 +76,21 @@ export function MobileSidebar({ onClose }: MobileSidebarProps) {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-4">
-        {navGroups.map((group) => {
-          const filteredItems = group.items.filter((item) => {
-            if (item.title === "Dashboard") return true;
-            return !moduleAccess || moduleAccess.some((m) => m.toLowerCase() === item.title.toLowerCase());
-          });
+        <div className="space-y-1">
+          <p className="px-3 text-[9px] font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+            {currentOS.name}
+          </p>
+          <ul className="space-y-0.5">
+            {(() => {
+              const filteredItems = navItems.filter((item) => {
+                if (item.title === "Dashboard" || item.title === "Overview") return true;
+                return !moduleAccess || moduleAccess.some((m) => m.toLowerCase() === item.title.toLowerCase());
+              });
 
-          return (
-            <div key={group.label} className="space-y-1">
-              <p className="px-3 text-[9px] font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-                {group.label}
-              </p>
-              <ul className="space-y-0.5">
-                {filteredItems.map((item) => {
-                const Icon = item.icon;
+              return filteredItems.map((item) => {
+                const Icon = item.icon as React.ElementType;
                 const dynamicHref = getDynamicHref(item.href);
-                const isActive =
-                  item.href === "/dashboard"
-                    ? pathname === dynamicHref || pathname === `${dynamicHref}/dashboard`
-                    : pathname.startsWith(dynamicHref);
+                const isActive = pathname.startsWith(dynamicHref);
 
                 return (
                   <li key={item.title}>
@@ -107,11 +109,10 @@ export function MobileSidebar({ onClose }: MobileSidebarProps) {
                     </Link>
                   </li>
                 );
-                })}
-              </ul>
-            </div>
-          );
-        })}
+              });
+            })()}
+          </ul>
+        </div>
       </nav>
 
       {/* Bottom Actions */}

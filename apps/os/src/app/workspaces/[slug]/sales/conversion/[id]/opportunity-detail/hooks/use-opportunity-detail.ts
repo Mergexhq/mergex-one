@@ -178,7 +178,7 @@ export function useOpportunityDetail(opportunityId: string, slug: string) {
       }
     } catch {
       toast.error("Failed to load opportunity");
-      router.push(`/workspaces/${slug}/crm/sales-conversion`);
+      router.push(`/workspaces/${slug}/sales/conversion`);
     } finally {
       setLoading(false);
     }
@@ -447,7 +447,7 @@ export function useOpportunityDetail(opportunityId: string, slug: string) {
       });
       if (!res.ok) throw new Error("Failed to convert opportunity to client");
       toast.success("Opportunity successfully converted to Client! 🎉");
-      router.push(`/workspaces/${slug}/crm/sales-conversion`);
+      router.push(`/workspaces/${slug}/sales/conversion`);
     } catch (err: any) {
       toast.error(err.message || "Failed to convert");
     } finally {

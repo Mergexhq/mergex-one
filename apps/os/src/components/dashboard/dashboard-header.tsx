@@ -57,7 +57,7 @@ export function DashboardHeader({ user, brandName, slug }: DashboardHeaderProps)
             <DropdownMenuLabel className="text-[10px] uppercase font-bold text-muted-foreground/60 px-2 py-1">
               Sales Workflows
             </DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => router.push(`/workspaces/${slug}/crm/leads/new`)} className="text-xs flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-muted/50 rounded-md">
+            <DropdownMenuItem onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/new`)} className="text-xs flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-muted/50 rounded-md">
               <Briefcase className="h-3.5 w-3.5 text-[#8B5CF6]" />
               <span>New Lead</span>
             </DropdownMenuItem>
@@ -73,7 +73,7 @@ export function DashboardHeader({ user, brandName, slug }: DashboardHeaderProps)
               <FileText className="h-3.5 w-3.5 text-[#8B5CF6]" />
               <span>Upload Document</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push(`/workspaces/${slug}/crm/meetings`)} className="text-xs flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-muted/50 rounded-md">
+            <DropdownMenuItem onClick={() => router.push(`/workspaces/${slug}/sales/conversion/meetings`)} className="text-xs flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-muted/50 rounded-md">
               <Calendar className="h-3.5 w-3.5 text-[#8B5CF6]" />
               <span>Schedule Meeting</span>
             </DropdownMenuItem>

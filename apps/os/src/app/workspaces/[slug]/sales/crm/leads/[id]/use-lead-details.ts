@@ -304,7 +304,7 @@ export function useLeadDetails({ leadId, slug }: UseLeadDetailsProps) {
       setIsDataLoaded(false);
       const msg = error instanceof Error ? error.message : "Failed to load lead details";
       toast.error(msg);
-      router.push(`/workspaces/${slug}/crm/leads`);
+      router.push(`/workspaces/${slug}/sales/crm/leads`);
     } finally {
       setLoading(false);
     }
@@ -677,7 +677,7 @@ export function useLeadDetails({ leadId, slug }: UseLeadDetailsProps) {
         throw new Error(d.error || "Failed to convert lead");
       }
       toast.success("Lead converted to client! 🎉");
-      router.push(`/workspaces/${slug}/crm/leads`);
+      router.push(`/workspaces/${slug}/sales/crm/leads`);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Failed to convert lead");
     } finally {

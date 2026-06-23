@@ -213,7 +213,7 @@ export function OpportunityTable({
                     key={opp.id}
                     className="border-b border-border/10 hover:bg-muted/20 transition-colors cursor-pointer group"
                     onClick={() =>
-                      router.push(`/workspaces/${slug}/crm/sales-conversion/${opp.id}`)
+                      router.push(`/workspaces/${slug}/sales/conversion/${opp.id}`)
                     }
                   >
                     {/* Company */}

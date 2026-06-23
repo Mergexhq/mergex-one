@@ -145,7 +145,7 @@ function NurturingCard({ lead }: { lead: Lead }) {
 
   return (
     <Card 
-      onClick={() => router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)}
+      onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)}
       className="relative overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/80 rounded-[20px] hover:shadow-lg transition-all duration-300 cursor-pointer group p-5 flex flex-col justify-between gap-4"
     >
       <div>
@@ -599,7 +599,7 @@ export function NurturingView({ leads, loading, owners, showStats = true }: Nurt
                   <div
                     key={lead.id}
                     className="grid grid-cols-[2fr_1.3fr_1.1fr_1.2fr_1fr_1.1fr_72px] items-center gap-3 px-4 py-3 hover:bg-muted/20 rounded-lg transition-all group text-xs border border-transparent hover:border-border/30 hover:shadow-xs cursor-pointer"
-                    onClick={() => router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)}
+                    onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)}
                   >
                     {/* Company */}
                     <div className="flex items-center gap-3 min-w-0">
@@ -688,7 +688,7 @@ export function NurturingView({ leads, loading, owners, showStats = true }: Nurt
                         variant="outline"
                         size="sm"
                         className="h-7 text-[10px] font-bold px-2.5 border-border/40 hover:border-[#8B5CF6]/40 hover:text-[#8B5CF6] transition-colors"
-                        onClick={() => router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)}
+                        onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)}
                       >
                         Open
                       </Button>

@@ -35,12 +35,12 @@ import { cn } from "@/lib/utils";
 import { formatCurrency } from "../components/types";
 
 // Operational Cards from Lead Operations
-import { SlaCard } from "../../leads/components/crm/operational-layers/sla-card";
-import { EscalationCard } from "../../leads/components/crm/operational-layers/escalation-card";
-import { TasksCard } from "../../leads/components/crm/operational-layers/tasks-card";
-import { NotesCard } from "../../leads/components/crm/operational-layers/notes-card";
-import { TimelineCard } from "../../leads/components/crm/operational-layers/timeline-card";
-import { KnowledgeCaptureCard } from "../../leads/components/crm/operational-layers/knowledge-capture-card";
+import { SlaCard } from "../../crm/leads/components/crm/operational-layers/sla-card";
+import { EscalationCard } from "../../crm/leads/components/crm/operational-layers/escalation-card";
+import { TasksCard } from "../../crm/leads/components/crm/operational-layers/tasks-card";
+import { NotesCard } from "../../crm/leads/components/crm/operational-layers/notes-card";
+import { TimelineCard } from "../../crm/leads/components/crm/operational-layers/timeline-card";
+import { KnowledgeCaptureCard } from "../../crm/leads/components/crm/operational-layers/knowledge-capture-card";
 
 // Hook and Subcomponents
 import { useOpportunityDetail } from "./opportunity-detail/hooks/use-opportunity-detail";
@@ -308,8 +308,8 @@ export function OpportunityDetailClient({ opportunityId }: { opportunityId: stri
       <OpportunityHeader
         detail={detail}
         slug={slug}
-        onBack={() => router.push(`/workspaces/${slug}/crm/sales-conversion`)}
-        onOpenLeadProfile={() => router.push(`/workspaces/${slug}/crm/leads/${detail.id}`)}
+        onBack={() => router.push(`/workspaces/${slug}/sales/conversion`)}
+        onOpenLeadProfile={() => router.push(`/workspaces/${slug}/sales/crm/leads/${detail.id}`)}
         onCloseDeal={handleCloseDeal}
       />
 

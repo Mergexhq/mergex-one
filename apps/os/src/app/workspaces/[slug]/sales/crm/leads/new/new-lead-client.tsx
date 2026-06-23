@@ -126,7 +126,7 @@ export function NewLeadClientPage() {
       }
 
       toast.success("Lead created successfully");
-      router.push(`/workspaces/${slug}/crm/leads/${data.id}`);
+      router.push(`/workspaces/${slug}/sales/crm/leads/${data.id}`);
       router.refresh();
     } catch (err: unknown) {
       console.error("Create lead error:", err);
@@ -139,7 +139,7 @@ export function NewLeadClientPage() {
     <div className="max-w-3xl mx-auto pb-12 pt-4">
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4 px-1">
-        <Link href={`/workspaces/${slug}/crm/leads`} className="hover:text-foreground transition-colors">
+        <Link href={`/workspaces/${slug}/sales/crm/leads`} className="hover:text-foreground transition-colors">
           Leads
         </Link>
         <ChevronRight className="h-3 w-3" />
@@ -402,7 +402,7 @@ export function NewLeadClientPage() {
                   if (typeof window !== "undefined") {
                     localStorage.removeItem(`draft_new_lead_${slug}`);
                   }
-                  router.push(`/workspaces/${slug}/crm/leads`);
+                  router.push(`/workspaces/${slug}/sales/crm/leads`);
                 }}
                 className="text-muted-foreground hover:text-foreground text-xs font-semibold h-9 px-4"
                 type="button"

@@ -16,35 +16,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { navGroups } from "@/config/navigation";
+import { osNavigationConfig } from "@/config/navigation";
 
 interface SidebarProps {
   collapsed: boolean;
   onCollapse: (val: boolean) => void;
 }
-
-const SUB_ITEMS: Record<string, { title: string; href: string }[]> = {
-  CRM: [
-    { title: "Lead Operations", href: "/dashboard/crm/leads" },
-    { title: "Sales Conversion", href: "/dashboard/crm/sales-conversion" },
-  ],
-  Clients: [
-    { title: "Active Clients", href: "/dashboard/clients/active" },
-    { title: "Projects", href: "/dashboard/clients/projects" },
-    { title: "Support", href: "/dashboard/clients/support" },
-    { title: "Renewals", href: "/dashboard/clients/renewals" },
-  ],
-  Documents: [
-    { title: "Templates", href: "/dashboard/documents/templates" },
-    { title: "Active Proposals", href: "/dashboard/documents/proposals" },
-    { title: "Signed Contracts", href: "/dashboard/documents/contracts" },
-  ],
-  Knowledge: [
-    { title: "Sales Manual", href: "/dashboard/knowledge/manual" },
-    { title: "Product Docs", href: "/dashboard/knowledge/docs" },
-    { title: "Process Wiki", href: "/dashboard/knowledge/wiki" },
-  ],
-};
 
 export function Sidebar({ collapsed, onCollapse }: SidebarProps) {
   const pathname = usePathname();
@@ -80,21 +57,33 @@ export function Sidebar({ collapsed, onCollapse }: SidebarProps) {
   }, [slug]);
 
   const getDynamicHref = (href: string) => {
-    return href.replace(/^\/dashboard/, `/workspaces/${slug}`);
+    if (href.startsWith("/workspaces")) return href;
+    return `/workspaces/${slug}${href}`;
   };
 
+  const segments = pathname.split("/").filter(Boolean);
+  const activeOSKey = segments[2] || "os";
+  const currentOS = osNavigationConfig[activeOSKey] ?? osNavigationConfig.os;
+  const navItems = currentOS.items;
 
   useEffect(() => {
     const activeAccordions: Record<string, boolean> = {};
-    if (pathname.startsWith(`/workspaces/${slug}/crm`)) activeAccordions["CRM"] = true;
-    if (pathname.startsWith(`/workspaces/${slug}/clients`)) activeAccordions["Clients"] = true;
-    if (pathname.startsWith(`/workspaces/${slug}/documents`)) activeAccordions["Documents"] = true;
-    if (pathname.startsWith(`/workspaces/${slug}/knowledge`)) activeAccordions["Knowledge"] = true;
+    navItems.forEach((item) => {
+      if (item.children) {
+        const hasActiveChild = item.children.some((child) =>
+          pathname.startsWith(getDynamicHref(child.href))
+        );
+        if (hasActiveChild) {
+          activeAccordions[item.title] = true;
+        }
+      }
+    });
     setOpenAccordions((prev) => ({ ...prev, ...activeAccordions }));
-  }, [pathname, slug]);
+  }, [pathname, slug, navItems]);
 
   const toggleAccordion = (title: string, e: React.MouseEvent) => {
-    if (SUB_ITEMS[title]) {
+    const item = navItems.find((n) => n.title === title);
+    if (item?.children) {
       e.preventDefault();
       setOpenAccordions((prev) => ({ ...prev, [title]: !prev[title] }));
     }
@@ -169,21 +158,18 @@ export function Sidebar({ collapsed, onCollapse }: SidebarProps) {
 
         {/* ── Primary Navigation ── */}
         <nav className="flex-1 overflow-y-auto pt-6 pb-3 px-3 space-y-1.5" data-tour="sidebar-nav">
-          {navGroups.flatMap((group) => {
-            const filteredItems = group.items.filter((item) => {
-              if (item.title === "Dashboard") return true;
+          {(() => {
+            const filteredItems = navItems.filter((item) => {
+              if (item.title === "Dashboard" || item.title === "Overview") return true;
               return !moduleAccess || moduleAccess.some((m) => m.toLowerCase() === item.title.toLowerCase());
             });
 
             return filteredItems.map((item) => {
-              const Icon = item.icon;
+              const Icon = item.icon as React.ElementType;
               const dynamicHref = getDynamicHref(item.href);
-              const isActive =
-                item.href === "/dashboard"
-                  ? pathname === dynamicHref || pathname === `${dynamicHref}/dashboard`
-                  : pathname.startsWith(dynamicHref);
+              const isActive = pathname.startsWith(dynamicHref);
               const isFrozen = !!item.isComingSoon;
-              const subItems = SUB_ITEMS[item.title]?.filter((sub) => {
+              const subItems = item.children?.filter((sub) => {
                 if (sub.title === "Projects") {
                   return !moduleAccess || moduleAccess.some((m) => m.toLowerCase() === "projects");
                 }
@@ -264,7 +250,6 @@ export function Sidebar({ collapsed, onCollapse }: SidebarProps) {
                     <TooltipContent
                       side="right"
                       sideOffset={12}
-                      /* Tooltip: font-medium - small text needs a little weight to read clearly */
                       className="text-[10px] font-medium"
                     >
                       {item.title}
@@ -282,8 +267,7 @@ export function Sidebar({ collapsed, onCollapse }: SidebarProps) {
                       {subItems.map((sub) => {
                         const subHref = getDynamicHref(sub.href);
                         const isSubActive = pathname.startsWith(subHref);
-                        // CRM sub-routes are all live; others are still coming soon
-                        const isLive = sub.href.startsWith("/dashboard/crm");
+                        const isLive = !sub.isComingSoon;
                         return (
                           <li key={sub.title}>
                             <Link
@@ -309,7 +293,7 @@ export function Sidebar({ collapsed, onCollapse }: SidebarProps) {
                 </div>
               );
             });
-          })}
+          })()}
         </nav>
 
         {/* ── Settings (Bottom) ── */}

@@ -55,7 +55,7 @@ function LeadCard({ lead, onDelete }: { lead: Lead; onDelete: (id: string) => Pr
 
   return (
     <Card 
-      onClick={() => router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)}
+      onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)}
       className="relative overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/80 rounded-[20px] hover:shadow-lg transition-all duration-300 cursor-pointer group p-5 flex flex-col justify-between gap-4"
     >
       {/* 3-Dot Actions Menu (Absolute Top Right) */}
@@ -75,7 +75,7 @@ function LeadCard({ lead, onDelete }: { lead: Lead; onDelete: (id: string) => Pr
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
             <DropdownMenuItem
-              onClick={() => router.push(`/workspaces/${slug}/crm/leads/${lead.id}`)}
+              onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/${lead.id}`)}
               className="text-xs cursor-pointer flex items-center justify-between font-semibold py-2"
             >
               <span>Open Workspace</span>

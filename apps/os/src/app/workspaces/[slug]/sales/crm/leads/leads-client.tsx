@@ -189,7 +189,7 @@ export function LeadsPage() {
 
           <Button
             size="sm"
-            onClick={() => router.push(`/workspaces/${slug}/crm/leads/new`)}
+            onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/new`)}
             className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white shrink-0 font-semibold"
             data-tour="crm-add-lead"
           >
@@ -236,14 +236,14 @@ export function LeadsPage() {
               leads={filteredLeads}
               loading={loading}
               onDelete={handleDeleteLead}
-              onAddClick={() => router.push(`/workspaces/${slug}/crm/leads/new`)}
+              onAddClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/new`)}
             />
           ) : (
             <LeadsGridView
               leads={filteredLeads}
               loading={loading}
               onDelete={handleDeleteLead}
-              onAddClick={() => router.push(`/workspaces/${slug}/crm/leads/new`)}
+              onAddClick={() => router.push(`/workspaces/${slug}/sales/crm/leads/new`)}
             />
           )}
         </>

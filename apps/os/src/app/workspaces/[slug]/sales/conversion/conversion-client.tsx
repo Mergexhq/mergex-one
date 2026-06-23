@@ -72,7 +72,7 @@ export function SalesConversionClient() {
           <Button
             size="sm"
             variant="outline"
-            onClick={() => router.push(`/workspaces/${slug}/crm/leads`)}
+            onClick={() => router.push(`/workspaces/${slug}/sales/crm/leads`)}
             className="text-xs font-semibold border-border/40 text-muted-foreground hover:text-foreground h-8"
           >
             <TrendingUp className="h-3.5 w-3.5 mr-1.5" />
@@ -88,7 +88,7 @@ export function SalesConversionClient() {
       <OpportunityTable
         opportunities={opportunities}
         loading={loading}
-        onAddClick={() => router.push(`/workspaces/${slug}/crm/leads`)}
+        onAddClick={() => router.push(`/workspaces/${slug}/sales/crm/leads`)}
       />
     </div>
   );

@@ -17,7 +17,7 @@ export type {
 export interface NavItem {
   title: string;
   href: string;
-  icon: React.ElementType | string;
+  icon?: React.ElementType | string;
   badge?: string | number;
   isComingSoon?: boolean;
   roles?: string[]; // Role names e.g. ['admin', 'manager']
