@@ -1,34 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MergeX One Monorepo
 
-## Getting Started
+This repository is a pnpm + Turborepo workspace for the MergeX applications and shared packages.
 
-First, run the development server:
+## Apps
+
+- `@mergex/website` - public marketing website
+- `@mergex/os` - internal operations portal
+- `@mergex/hq` - client experience portal
+
+## Shared Packages
+
+Shared code lives in `packages/*`, including:
+
+- `@mergex/auth`
+- `@mergex/database`
+- `@mergex/ui`
+- `@mergex/types`
+- `@mergex/notifications`
+- `@mergex/documents`
+- `@mergex/storage`
+- `@mergex/email`
+- `@mergex/analytics`
+- `@mergex/utils`
+
+## Install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If pnpm is not installed:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install -g pnpm
+```
 
-## Learn More
+## Run All Apps
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This runs the `dev` task through Turborepo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Run a Specific App
 
-## Deploy on Vercel
+```bash
+pnpm --filter @mergex/os dev
+pnpm --filter @mergex/website dev
+pnpm --filter @mergex/hq dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Build the full workspace:
+
+```bash
+pnpm build
+```
+
+Build a specific app:
+
+```bash
+pnpm --filter @mergex/os build
+```
+
+## Lint
+
+Lint the full workspace:
+
+```bash
+pnpm lint
+```
+
+Lint a specific app:
+
+```bash
+pnpm --filter @mergex/os lint
+```
+
+## Database
+
+Prisma schema and migrations live in `prisma/`.
+
+Generate the Prisma client:
+
+```bash
+pnpm db:generate
+```
+
+## Add Packages
+
+Add a dependency to the workspace root:
+
+```bash
+pnpm add package-name -w
+```
+
+Add a dependency to a specific app:
+
+```bash
+pnpm --filter @mergex/os add package-name
+```
+
+Add a local shared package to an app:
+
+```bash
+pnpm --filter @mergex/os add @mergex/ui@workspace:*
+```
+
+## Useful Docs
+
+- Root architecture: `docs/Architecture/mergex_one_folder_structure.md`
+- OS app structure: `docs/Architecture/mergex_os_folder_structure.md`
+
+## Notes
+
+This repo uses Next.js 16. Before changing Next.js app code, read the relevant local guide in `node_modules/next/dist/docs/` and follow any deprecation notices.
