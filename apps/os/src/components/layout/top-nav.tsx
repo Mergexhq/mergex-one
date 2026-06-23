@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname, useParams } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
 import Link from "next/link";
-import { Search, Menu, Sparkles, Megaphone, HelpCircle } from "lucide-react";
+import { Search, Menu, Megaphone, HelpCircle } from "lucide-react";
 import { ReleaseAnnouncementModal } from "@/components/layout/release-announcement-modal";
 import { Button } from "@/components/ui/button";
 import { useTour } from "@/providers/OnboardingProvider";
@@ -21,6 +21,7 @@ import { useCommandCenter } from "@/components/command/command-provider";
 import { BrandSwitcher, type BrandOption } from "@/components/layout/brand-switcher";
 import { OSSwitcher } from "@/components/layout/os-switcher";
 import { cn } from "@/lib/utils";
+import { fetchWithCache } from "@/lib/api-cache";
 
 function formatBreadcrumb(pathname: string): string {
   const segments = pathname.split("/").filter(Boolean);
@@ -84,9 +85,8 @@ export function TopNav() {
       ]
     };
 
-    fetch("/api/releases/latest")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
+    fetchWithCache("/api/releases/latest", 300000)
+      .then((data: any) => {
         if (data?.release) {
           setLatestRelease(data.release);
           const lastSeenId = localStorage.getItem("lastSeenChangelogId");
@@ -122,8 +122,7 @@ export function TopNav() {
 
   // Load brands for switcher
   useEffect(() => {
-    fetch("/api/brands")
-      .then((r) => r.ok ? r.json() : [])
+    fetchWithCache("/api/brands", 300000)
       .then((data: unknown) => {
         if (Array.isArray(data)) setBrands(data as BrandOption[]);
       })
@@ -256,35 +255,35 @@ interface DbProfile {
 
 function ProfileMenu() {
   const { user } = useUser();
+  const { signOut } = useClerk();
   const params = useParams();
   const slug = params?.slug as string;
   const { setTheme } = useTheme();
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [dbProfile, setDbProfile] = useState<DbProfile | null>(null);
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch("/api/profile");
-      if (res.ok) {
-        const data = await res.json();
-        if (data.ok && data.user) {
-          setDbProfile(data.user);
+      const data = await fetchWithCache("/api/profile", 300000);
+      if (data?.user) {
+        setDbProfile(data.user);
 
-          // Sync theme to next-themes on fresh device/session (no theme in localStorage)
-          const dbTheme = data.user.theme;
-          if (dbTheme && !localStorage.getItem("theme")) {
-            setTheme(dbTheme);
-          }
+        // Sync theme to next-themes on fresh device/session (no theme in localStorage)
+        const dbTheme = data.user.theme;
+        if (dbTheme && !localStorage.getItem("theme")) {
+          setTheme(dbTheme);
+        }
 
-          // Background sync Clerk avatarUrl to DB if it's a Clerk URL and has changed
-          const dbAvatar = data.user.avatarUrl;
-          const isClerkAvatar = !dbAvatar || dbAvatar.startsWith("https://img.clerk.com");
-          if (isClerkAvatar && user?.imageUrl && dbAvatar !== user.imageUrl) {
-            fetch("/api/profile", {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ avatarUrl: user.imageUrl }),
-            }).catch(console.error);
-          }
+        // Background sync Clerk avatarUrl to DB if it's a Clerk URL and has changed
+        const dbAvatar = data.user.avatarUrl;
+        const isClerkAvatar = !dbAvatar || dbAvatar.startsWith("https://img.clerk.com");
+        if (isClerkAvatar && user?.imageUrl && dbAvatar !== user.imageUrl) {
+          fetch("/api/profile", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ avatarUrl: user.imageUrl }),
+          }).catch(console.error);
         }
       }
     } catch (err) {
@@ -293,17 +292,22 @@ function ProfileMenu() {
   };
 
   useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  useEffect(() => {
     if (!user) return;
     fetchProfile();
 
-    const handleProfileUpdate = () => {
-      fetchProfile();
-    };
-
+    const handleProfileUpdate = () => fetchProfile();
     window.addEventListener("mergex:profile-updated", handleProfileUpdate);
-    return () => {
-      window.removeEventListener("mergex:profile-updated", handleProfileUpdate);
-    };
+    return () => window.removeEventListener("mergex:profile-updated", handleProfileUpdate);
   }, [user]);
 
   if (!user) return null;
@@ -312,27 +316,91 @@ function ProfileMenu() {
     ? `${user.firstName?.[0] ?? ""}${user.lastName?.[0] ?? ""}`.toUpperCase()
     : user.primaryEmailAddress?.emailAddress?.[0]?.toUpperCase() || "U";
 
+  const userRoleOrDesignation = (() => {
+    if (dbProfile?.designation) return dbProfile.designation;
+    if (dbProfile?.Role?.label) return dbProfile.Role.label;
+    const metaRole = user.publicMetadata?.role as string;
+    if (metaRole === "super_admin") return "Super Admin";
+    if (metaRole === "admin") return "Admin";
+    if (metaRole === "cx_executive") return "CX Executive";
+    return "Member";
+  })();
+
   const isClerkAvatar = !dbProfile?.avatarUrl || dbProfile.avatarUrl.startsWith("https://img.clerk.com");
   const avatarSrc = isClerkAvatar ? (user.imageUrl || dbProfile?.avatarUrl) : dbProfile.avatarUrl;
 
   return (
-    <div className="relative" data-tour="top-nav-profile">
-      <Link
-        href="/me"
+    <div ref={dropdownRef} className="relative" data-tour="top-nav-profile">
+      <button
+        onClick={() => setOpen((v) => !v)}
         className="h-7 w-7 rounded-full overflow-hidden border border-border/20 hover:border-border/60 transition-all flex items-center justify-center cursor-pointer focus:outline-none"
         aria-label="User profile options"
       >
         {avatarSrc ? (
           <img src={avatarSrc} className="h-full w-full object-cover" alt="User Avatar" />
         ) : (
-          <div 
+          <div
             className="h-full w-full flex items-center justify-center text-[10px] font-black text-white uppercase"
             style={{ background: "radial-gradient(circle at 30% 107%, #7819f6 0%, #000000 90%)" }}
           >
             {userInitials}
           </div>
         )}
-      </Link>
+      </button>
+
+      {open && (
+        <div className="absolute top-9 right-0 z-50 min-w-[200px] bg-card/90 backdrop-blur-md border border-white/60 dark:border-white/5 rounded-xl shadow-lg overflow-hidden py-1.5">
+          {/* Account overview card */}
+          <div className="px-3.5 py-2.5 border-b border-[#E5E7EB] dark:border-[#26262C]/60 flex items-center gap-2.5">
+            {avatarSrc ? (
+              <img src={avatarSrc} className="h-7 w-7 rounded-full border border-border/20 object-cover" alt="User Avatar" />
+            ) : (
+              <div
+                className="h-7 w-7 rounded-full flex items-center justify-center text-[9px] font-black text-white uppercase border border-white/10"
+                style={{ background: "radial-gradient(circle at 30% 107%, #7819f6 0%, #000000 90%)" }}
+              >
+                {userInitials}
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-foreground truncate leading-none">
+                {user.firstName ? `${user.firstName} ${user.lastName ?? ""}` : "Teammate"}
+              </p>
+              <p className="text-xs text-muted-foreground truncate mt-1 leading-none">
+                {userRoleOrDesignation}
+              </p>
+            </div>
+          </div>
+
+          {/* Action Links */}
+          <div className="py-1">
+            <Link
+              href="/me"
+              className="w-full flex items-center px-3.5 py-2 text-xs font-semibold text-foreground hover:bg-muted/50 transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              My Profile
+            </Link>
+            <Link
+              href={slug ? `/workspaces/${slug}/settings` : "/workspaces"}
+              className="w-full flex items-center px-3.5 py-2 text-xs font-semibold text-foreground hover:bg-muted/50 transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              Settings
+            </Link>
+          </div>
+
+          <div className="border-t border-[#E5E7EB] dark:border-[#26262C]/60 my-1 mx-2" />
+
+          {/* Sign-out */}
+          <button
+            onClick={() => { setOpen(false); signOut(); }}
+            className="w-full flex items-center px-3.5 py-2 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-muted/50 transition-colors text-left cursor-pointer"
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 }

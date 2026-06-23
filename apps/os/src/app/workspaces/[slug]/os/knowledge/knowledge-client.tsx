@@ -24,7 +24,7 @@ import {
 type DocumentType = "PLAYBOOK" | "SOP" | "TRAINING" | "TEMPLATE" | "REFERENCE" | "ANNOUNCEMENT";
 type DocumentStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 
-interface Document {
+interface KBDocument {
   id: string;
   title: string;
   slug: string;
@@ -68,7 +68,7 @@ const KB_CATEGORIES = [
 ];
 
 // Starter documents - seed content that shows the knowledge structure
-const STARTER_DOCS: Document[] = [
+const STARTER_DOCS: KBDocument[] = [
   {
     id: "s1",
     title: "11-Stage Pipeline Playbook",
@@ -164,7 +164,7 @@ function StatusBadge({ status }: { status: DocumentStatus }) {
   );
 }
 
-function DocumentCard({ doc }: { doc: Document }) {
+function DocumentCard({ doc }: { doc: KBDocument }) {
   const initials = `${doc.author.firstName[0]}${doc.author.lastName[0]}`.toUpperCase();
   return (
     <Card className="hover:shadow-md transition-all group cursor-pointer border hover:border-primary/30">

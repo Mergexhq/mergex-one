@@ -1,7 +1,7 @@
-import { TeamDirectory } from "./team-client";
+import { EmployeeDirectory } from "./employees-client";
 
-export const metadata = { title: "Team | MergeX OS" };
+export const metadata = { title: "People | MergeX OS" };
 
-export default function TeamPage() {
-  return <TeamDirectory />;
+export default function EmployeesPage() {
+  return <EmployeeDirectory />;
 }

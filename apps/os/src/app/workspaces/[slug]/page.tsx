@@ -6,5 +6,5 @@ interface PageProps {
 
 export default async function WorkspaceSlugPage({ params }: PageProps) {
   const { slug } = await params;
-  redirect(`/workspaces/${slug}/dashboard`);
+  redirect(`/workspaces/${slug}/os/overview`);
 }
