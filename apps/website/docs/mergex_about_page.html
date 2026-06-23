@@ -1,0 +1,1254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - MergeX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── TOKENS ── */
+      :root {
+        --bg: #0a0a0a;
+        --surface: #111111;
+        --border: #1e1e1e;
+        --border-mid: #2a2a2a;
+        --purple: #6c63ff;
+        --purple-dim: rgba(108, 99, 255, 0.12);
+        --purple-glow: rgba(108, 99, 255, 0.06);
+        --text-primary: #f0eee8;
+        --text-secondary: #888880;
+        --text-tertiary: #444440;
+        --serif: "Instrument Serif", Georgia, serif;
+        --sans: "DM Sans", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text-primary);
+        font-family: var(--sans);
+        font-weight: 300;
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── NOISE TEXTURE ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 48px;
+        height: 64px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(10, 10, 10, 0.85);
+        backdrop-filter: blur(16px);
+      }
+
+      .nav-logo {
+        font-family: var(--serif);
+        font-size: 18px;
+        color: var(--text-primary);
+        letter-spacing: -0.02em;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+      }
+
+      .nav-links a {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        letter-spacing: 0.01em;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
+      .nav-links a.active {
+        color: var(--text-primary);
+      }
+
+      .nav-cta {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--bg) !important;
+        background: var(--text-primary);
+        padding: 8px 18px;
+        border-radius: 2px;
+        letter-spacing: 0.02em;
+        transition: opacity 0.2s !important;
+      }
+      .nav-cta:hover {
+        opacity: 0.85;
+      }
+
+      /* ── MAIN WRAPPER ── */
+      main {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── SECTION 01: HERO ── */
+      .s-hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 48px 80px;
+        position: relative;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* Vertical rule left */
+      .s-hero::before {
+        content: "";
+        position: absolute;
+        left: 48px;
+        top: 64px;
+        bottom: 80px;
+        width: 1px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--border-mid) 30%,
+          var(--border-mid) 70%,
+          transparent
+        );
+      }
+
+      .hero-eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        margin-bottom: 40px;
+        padding-left: 72px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        padding-left: 72px;
+      }
+
+      .hero-left {
+      }
+
+      .hero-tag {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--purple);
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hero-tag::before {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 1px;
+        background: var(--purple);
+      }
+
+      .hero-heading {
+        font-family: var(--serif);
+        font-size: clamp(42px, 5vw, 68px);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin-bottom: 32px;
+      }
+
+      .hero-heading em {
+        font-style: italic;
+        color: var(--text-secondary);
+      }
+
+      .hero-founding {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .hero-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-left: 60px;
+        border-left: 1px solid var(--border);
+      }
+
+      .hero-para {
+        font-size: 16px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        max-width: 420px;
+        margin-bottom: 40px;
+      }
+
+      .hero-para strong {
+        color: var(--text-primary);
+        font-weight: 400;
+      }
+
+      .hero-scroll {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .hero-scroll-line {
+        width: 40px;
+        height: 1px;
+        background: var(--text-tertiary);
+      }
+
+      /* ── SECTION 02: NARRATIVE CORE ── */
+      .s-narrative {
+        padding: 120px 48px;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+      }
+
+      .s-narrative-inner {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 80px;
+        max-width: 1200px;
+      }
+
+      .narrative-sidebar {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+      }
+
+      .sidebar-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        margin-bottom: 20px;
+      }
+
+      .sidebar-number {
+        font-family: var(--serif);
+        font-size: 80px;
+        color: var(--border-mid);
+        line-height: 1;
+        margin-bottom: 24px;
+        font-style: italic;
+      }
+
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .sidebar-nav-item {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .sidebar-nav-item::before {
+        content: "";
+        width: 16px;
+        height: 1px;
+        background: currentColor;
+        flex-shrink: 0;
+        transition: width 0.2s;
+      }
+      .sidebar-nav-item:hover,
+      .sidebar-nav-item.active {
+        color: var(--text-primary);
+      }
+      .sidebar-nav-item.active::before {
+        width: 28px;
+      }
+
+      .narrative-content {
+      }
+
+      /* Phase label */
+      .phase-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--purple);
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .phase-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* Pull quote / thesis */
+      .thesis {
+        font-family: var(--serif);
+        font-size: clamp(24px, 3vw, 36px);
+        line-height: 1.3;
+        color: var(--text-primary);
+        letter-spacing: -0.01em;
+        margin-bottom: 48px;
+        padding-bottom: 48px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .thesis em {
+        font-style: italic;
+        color: var(--text-secondary);
+      }
+
+      /* Body prose */
+      .prose {
+        font-size: 16px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 32px;
+        max-width: 640px;
+      }
+
+      .prose strong {
+        color: var(--text-primary);
+        font-weight: 400;
+      }
+
+      /* Belief moments - visual punctuation inside prose */
+      .belief-block {
+        margin: 48px 0;
+        padding: 32px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .belief-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border);
+        opacity: 0;
+        transform: translateX(-8px);
+        transition:
+          opacity 0.5s,
+          transform 0.5s;
+      }
+      .belief-item:last-child {
+        border-bottom: none;
+      }
+      .belief-item.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      .belief-num {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.08em;
+        min-width: 28px;
+        padding-top: 4px;
+        font-weight: 500;
+      }
+
+      .belief-text {
+        font-family: var(--serif);
+        font-size: clamp(18px, 2.2vw, 24px);
+        color: var(--text-primary);
+        line-height: 1.4;
+        letter-spacing: -0.01em;
+      }
+
+      .belief-sub {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        margin-top: 6px;
+        line-height: 1.5;
+      }
+
+      /* Ecosystem teaser */
+      .ecosystem-teaser {
+        margin-top: 64px;
+        padding: 40px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        border-radius: 2px;
+      }
+
+      .eco-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        margin-bottom: 16px;
+      }
+
+      .eco-intro {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-bottom: 32px;
+        max-width: 540px;
+      }
+
+      .eco-intro strong {
+        color: var(--text-primary);
+        font-weight: 400;
+      }
+
+      .eco-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+      }
+
+      .eco-card {
+        background: var(--surface);
+        padding: 24px 28px;
+        transition: background 0.2s;
+      }
+      .eco-card:hover {
+        background: #161616;
+      }
+
+      .eco-card-name {
+        font-family: var(--serif);
+        font-size: 18px;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+        letter-spacing: -0.01em;
+      }
+
+      .eco-card-role {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin-bottom: 12px;
+      }
+
+      .eco-card-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        color: var(--purple);
+        letter-spacing: 0.06em;
+      }
+      .eco-card-status::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--purple);
+      }
+
+      /* ── SECTION 03: NON-NEGOTIABLES ── */
+      .s-standards {
+        padding: 120px 48px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .standards-inner {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 80px;
+        max-width: 1200px;
+      }
+
+      .standards-left {
+      }
+
+      .standards-heading {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        margin-bottom: 20px;
+      }
+
+      .standards-title {
+        font-family: var(--serif);
+        font-size: clamp(28px, 3vw, 40px);
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+      }
+
+      .standards-desc {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        line-height: 1.7;
+      }
+
+      .standards-right {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .standard-row {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 24px;
+        align-items: start;
+        padding: 36px 0;
+        border-bottom: 1px solid var(--border);
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 0.5s,
+          transform 0.5s;
+      }
+      .standard-row:first-child {
+        padding-top: 0;
+      }
+      .standard-row:last-child {
+        border-bottom: none;
+      }
+      .standard-row.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      .standard-num {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.08em;
+        padding-top: 8px;
+        font-weight: 500;
+      }
+
+      .standard-body {
+      }
+
+      .standard-text {
+        font-family: var(--serif);
+        font-size: clamp(20px, 2.2vw, 26px);
+        color: var(--text-primary);
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+        margin-bottom: 10px;
+      }
+
+      .standard-explain {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        line-height: 1.6;
+      }
+
+      /* ── SECTION 04: FINAL CTA ── */
+      .s-cta {
+        padding: 140px 48px 120px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Subtle glow */
+      .s-cta::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 400px;
+        background: radial-gradient(
+          ellipse,
+          var(--purple-glow) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .cta-inner {
+        max-width: 720px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .cta-label::before {
+        content: "";
+        width: 1px;
+        height: 40px;
+        background: var(--border-mid);
+      }
+
+      .cta-heading {
+        font-family: var(--serif);
+        font-size: clamp(36px, 5vw, 64px);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin-bottom: 28px;
+      }
+
+      .cta-heading em {
+        font-style: italic;
+        color: var(--text-secondary);
+      }
+
+      .cta-body {
+        font-size: 16px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin-bottom: 48px;
+        max-width: 540px;
+      }
+
+      .cta-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--bg);
+        background: var(--text-primary);
+        padding: 14px 28px;
+        border-radius: 2px;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: opacity 0.2s;
+        margin-bottom: 20px;
+      }
+      .cta-primary:hover {
+        opacity: 0.88;
+      }
+      .cta-primary-arrow {
+        font-size: 16px;
+        transition: transform 0.2s;
+      }
+      .cta-primary:hover .cta-primary-arrow {
+        transform: translateX(4px);
+      }
+
+      .cta-secondary-links {
+        display: flex;
+        gap: 28px;
+        margin-top: 4px;
+      }
+
+      .cta-secondary-links a {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s;
+      }
+      .cta-secondary-links a:hover {
+        color: var(--text-secondary);
+      }
+      .cta-secondary-links a::after {
+        content: "→";
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 40px 48px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 40px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-brand {
+      }
+      .footer-logo {
+        font-family: var(--serif);
+        font-size: 16px;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+        letter-spacing: -0.01em;
+      }
+      .footer-tag {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.06em;
+        margin-bottom: 16px;
+      }
+      .footer-desc {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        max-width: 200px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .footer-socials {
+        display: flex;
+        gap: 8px;
+      }
+      .footer-social {
+        width: 30px;
+        height: 30px;
+        border: 1px solid var(--border-mid);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      }
+      .footer-social:hover {
+        border-color: var(--text-tertiary);
+      }
+      .footer-social svg {
+        width: 12px;
+        height: 12px;
+        fill: var(--text-tertiary);
+      }
+
+      .footer-cols {
+        display: flex;
+        gap: 60px;
+      }
+      .footer-col h4 {
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-tertiary);
+        margin-bottom: 16px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 12px;
+        color: var(--text-tertiary);
+        text-decoration: none;
+        margin-bottom: 10px;
+        transition: color 0.2s;
+      }
+      .footer-col a:hover {
+        color: var(--text-secondary);
+      }
+      .footer-col a.cta-link {
+        color: var(--purple);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid var(--border);
+        padding: 16px 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-bottom span {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.04em;
+      }
+
+      .footer-strip {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* ── ANIMATIONS ── */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      .hero-eyebrow {
+        animation: fadeIn 0.8s 0.1s both;
+      }
+      .hero-tag {
+        animation: fadeIn 0.8s 0.2s both;
+      }
+      .hero-heading {
+        animation: fadeIn 0.9s 0.3s both;
+      }
+      .hero-founding {
+        animation: fadeIn 0.8s 0.5s both;
+      }
+      .hero-para {
+        animation: fadeIn 0.8s 0.4s both;
+      }
+      .hero-scroll {
+        animation: fadeIn 0.8s 0.6s both;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">MergeX</div>
+      <div class="nav-links">
+        <a href="#">What we do</a>
+        <a href="#">Work</a>
+        <a href="#">Insights</a>
+        <a href="#" class="active">About</a>
+        <a href="#" class="nav-cta">Book a call →</a>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ── SECTION 01: HERO ── -->
+      <section class="s-hero">
+        <p class="hero-eyebrow">The MergeX Company - Est. 2025</p>
+
+        <div class="hero-grid">
+          <div class="hero-left">
+            <div class="hero-tag">About MergeX</div>
+            <h1 class="hero-heading">
+              Diagnosis<br />
+              before<br />
+              <em>everything.</em>
+            </h1>
+            <p class="hero-founding">Founded 2025 · Chennai, India</p>
+          </div>
+
+          <div class="hero-right">
+            <p class="hero-para">
+              MergeX is a <strong>diagnostic-first scaling company.</strong>
+              We don't sell services. We find the exact factor stopping your
+              business from growing - and build the precise system to fix it.
+              <br /><br />
+              Most companies offer execution. We offer clarity first. Then
+              execution - only where the diagnosis demands it.
+            </p>
+            <div class="hero-scroll">
+              <span class="hero-scroll-line"></span>
+              Continue reading
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SECTION 02: NARRATIVE CORE ── -->
+      <section class="s-narrative">
+        <div class="s-narrative-inner">
+          <div class="narrative-sidebar">
+            <div class="sidebar-label">Section</div>
+            <div class="sidebar-number">02</div>
+            <nav class="sidebar-nav">
+              <div class="sidebar-nav-item active">The market problem</div>
+              <div class="sidebar-nav-item">Why MergeX exists</div>
+              <div class="sidebar-nav-item">What we believe</div>
+              <div class="sidebar-nav-item">The ecosystem</div>
+            </nav>
+          </div>
+
+          <div class="narrative-content">
+            <div class="phase-label">What we are - why we exist</div>
+
+            <p class="thesis fade-up">
+              Businesses don't fail from lack of effort.<br />
+              They fail because they're solving<br />
+              <em>the wrong problem.</em>
+            </p>
+
+            <p class="prose fade-up">
+              Every year, founders hire agencies, run campaigns, rebuild their
+              brand, and invest in technology - without ever asking the more
+              important question:
+              <strong>is this actually what's stopping our growth?</strong>
+              The answer, most of the time, is no.
+            </p>
+
+            <p class="prose fade-up">
+              The agency sells execution. The consultant sells advice. Nobody
+              diagnoses first. Nobody asks what the actual constraint is before
+              prescribing a solution. The result is a market full of
+              <strong
+                >expensive, well-executed answers to the wrong
+                questions.</strong
+              >
+            </p>
+
+            <p class="prose fade-up">
+              MergeX was built to fix this. Not by doing more - but by
+              <strong>understanding precisely what needs to be done</strong>
+              before anything is built. We diagnose the exact factor limiting
+              your growth. Then and only then, we architect the system to remove
+              it.
+            </p>
+
+            <p class="prose fade-up">
+              We call this approach the <strong>S.C.A.L.E Formula™</strong> - a
+              five-stage diagnostic and execution framework that identifies your
+              real growth constraint and builds the infrastructure to resolve
+              it.
+              <a
+                href="/methodology"
+                style="color: var(--purple); text-decoration: none"
+                >Learn how it works →</a
+              >
+            </p>
+
+            <!-- BELIEF MOMENTS -->
+            <div class="belief-block">
+              <div class="belief-item">
+                <span class="belief-num">01</span>
+                <div>
+                  <p class="belief-text">
+                    Execution without diagnosis is expensive guesswork.
+                  </p>
+                  <p class="belief-sub">
+                    The most costly mistake in business is solving the wrong
+                    problem with precision.
+                  </p>
+                </div>
+              </div>
+              <div class="belief-item">
+                <span class="belief-num">02</span>
+                <div>
+                  <p class="belief-text">
+                    A business that depends on its founder cannot scale.
+                  </p>
+                  <p class="belief-sub">
+                    Systems create freedom. Every engagement ends with ownership
+                    transferred - not dependency created.
+                  </p>
+                </div>
+              </div>
+              <div class="belief-item">
+                <span class="belief-num">03</span>
+                <div>
+                  <p class="belief-text">Precision beats volume. Every time.</p>
+                  <p class="belief-sub">
+                    We do not offer a menu of services. We prescribe only what
+                    the diagnosis demands.
+                  </p>
+                </div>
+              </div>
+              <div class="belief-item">
+                <span class="belief-num">04</span>
+                <div>
+                  <p class="belief-text">Good systems outlast every trend.</p>
+                  <p class="belief-sub">
+                    Infrastructure built on clarity compounds over time. Tactics
+                    built on guesswork erode it.
+                  </p>
+                </div>
+              </div>
+              <div class="belief-item">
+                <span class="belief-num">05</span>
+                <div>
+                  <p class="belief-text">
+                    Scale is an infrastructure problem - not a marketing one.
+                  </p>
+                  <p class="belief-sub">
+                    When growth stalls, the answer is rarely more execution. It
+                    is almost always clearer systems.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ECOSYSTEM TEASER -->
+            <div class="ecosystem-teaser fade-up">
+              <div class="eco-label">The MergeX Company</div>
+              <p class="eco-intro">
+                MergeX is the flagship brand of
+                <strong>The MergeX Company</strong> - a scaling ecosystem
+                building specialized infrastructure across systems, creative,
+                talent, knowledge, and products. Today, two divisions are
+                active.
+              </p>
+              <div class="eco-cards">
+                <div class="eco-card">
+                  <div class="eco-card-name">MergeX</div>
+                  <div class="eco-card-role">Diagnostic scaling systems</div>
+                  <div class="eco-card-status">Active</div>
+                </div>
+                <div class="eco-card">
+                  <div class="eco-card-name">Studio</div>
+                  <div class="eco-card-role">
+                    Brand & creative infrastructure
+                  </div>
+                  <div class="eco-card-status">Active</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SECTION 03: NON-NEGOTIABLES ── -->
+      <section class="s-standards">
+        <div class="standards-inner">
+          <div class="standards-left">
+            <div class="standards-heading">Section 03</div>
+            <h2 class="standards-title">How we<br />work.</h2>
+            <p class="standards-desc">
+              These are not guidelines.<br />
+              They govern every engagement,<br />
+              without exception.
+            </p>
+          </div>
+
+          <div class="standards-right">
+            <div class="standard-row">
+              <span class="standard-num">01</span>
+              <div class="standard-body">
+                <p class="standard-text">
+                  We diagnose before we prescribe. Always.
+                </p>
+                <p class="standard-explain">
+                  No engagement begins with a solution. Every engagement begins
+                  with a structured diagnosis of the actual constraint. The
+                  prescription follows the finding - never the other way around.
+                </p>
+              </div>
+            </div>
+            <div class="standard-row">
+              <span class="standard-num">02</span>
+              <div class="standard-body">
+                <p class="standard-text">
+                  We work selectively - not with everyone who can pay.
+                </p>
+                <p class="standard-explain">
+                  MergeX works with revenue-generating businesses that are ready
+                  to scale. Not pre-revenue startups. Not founders looking for
+                  the cheapest option. Selectivity is how we protect the depth
+                  of every engagement.
+                </p>
+              </div>
+            </div>
+            <div class="standard-row">
+              <span class="standard-num">03</span>
+              <div class="standard-body">
+                <p class="standard-text">
+                  We build systems - not dependencies.
+                </p>
+                <p class="standard-explain">
+                  Every system we build is designed to operate without us. Our
+                  success is measured by how little a business needs us after
+                  the engagement ends - not by how much they do.
+                </p>
+              </div>
+            </div>
+            <div class="standard-row">
+              <span class="standard-num">04</span>
+              <div class="standard-body">
+                <p class="standard-text">We measure outcomes. Not activity.</p>
+                <p class="standard-explain">
+                  Reports on hours spent, content published, and campaigns run
+                  are not outcomes. Revenue growth, operational clarity, and
+                  founder independence are. We are accountable to the second
+                  list - not the first.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SECTION 04: FINAL CTA ── -->
+      <section class="s-cta">
+        <div class="cta-inner">
+          <div class="cta-label">Work with us</div>
+          <h2 class="cta-heading">
+            If this is how you<br />
+            think about building<br />
+            a business - <em>let's talk.</em>
+          </h2>
+          <p class="cta-body">
+            We spend the first conversation understanding your situation - not
+            pitching ours. If there's a fit, we'll tell you exactly what we'd
+            diagnose and why. No obligation. No guesswork.
+          </p>
+          <div>
+            <a href="/diagnostic" class="cta-primary">
+              Book a diagnostic call
+              <span class="cta-primary-arrow">→</span>
+            </a>
+          </div>
+          <div class="cta-secondary-links">
+            <a href="/brands/studio">Interested in Studio</a>
+            <a href="/careers">Join MergeX</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-brand">
+        <div class="footer-logo">MergeX</div>
+        <div class="footer-tag">The Scaling Company</div>
+        <p class="footer-desc">
+          We identify and fix the exact factor stopping business growth.
+        </p>
+        <div class="footer-socials">
+          <div class="footer-social">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              />
+            </svg>
+          </div>
+          <div class="footer-social">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"
+              />
+            </svg>
+          </div>
+          <div class="footer-social">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="#">What we do</a>
+          <a href="#">Work</a>
+          <a href="#">Insights</a>
+          <a href="#">About</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#">Careers</a>
+          <a href="#">Partner with us</a>
+          <a href="#">Contact</a>
+          <a href="#" class="cta-link">Book a call →</a>
+        </div>
+      </div>
+    </footer>
+
+    <div class="footer-bottom">
+      <span>© 2026 MergeX. All rights reserved.</span>
+      <span class="footer-strip">One system. Zero friction.</span>
+      <div style="display: flex; gap: 20px">
+        <span
+          style="font-size: 11px; color: var(--text-tertiary); cursor: pointer"
+          >Privacy Policy</span
+        >
+        <span
+          style="font-size: 11px; color: var(--text-tertiary); cursor: pointer"
+          >Terms of Use</span
+        >
+      </div>
+    </div>
+
+    <script>
+      // Intersection observer for scroll animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      );
+
+      document
+        .querySelectorAll(".fade-up, .belief-item, .standard-row")
+        .forEach((el) => {
+          observer.observe(el);
+        });
+
+      // Stagger belief items
+      document.querySelectorAll(".belief-item").forEach((el, i) => {
+        el.style.transitionDelay = `${i * 80}ms`;
+      });
+
+      // Stagger standard rows
+      document.querySelectorAll(".standard-row").forEach((el, i) => {
+        el.style.transitionDelay = `${i * 100}ms`;
+      });
+
+      // Sidebar nav active state on scroll
+      const sections = ["narrative-content"];
+    </script>
+  </body>
+</html>
