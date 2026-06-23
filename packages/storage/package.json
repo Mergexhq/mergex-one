@@ -1,0 +1,14 @@
+{
+    "version":  "0.1.0",
+    "name":  "@mergex/storage",
+    "main":  "./dist/index.js",
+    "scripts":  {
+                    "build":  "tsc"
+                },
+    "dependencies":  {
+                         "@aws-sdk/client-s3":  "^3.712.0",
+                         "typescript":  "^5"
+                     },
+    "types":  "./dist/index.d.ts",
+    "private":  true
+}

@@ -1,0 +1,14 @@
+{
+    "include":  [
+                    "src/**/*"
+                ],
+    "compilerOptions":  {
+                            "outDir":  "./dist",
+                            "strict":  true,
+                            "moduleResolution":  "node",
+                            "skipLibCheck":  true,
+                            "module":  "commonjs",
+                            "target":  "es2022",
+                            "declaration":  true
+                        }
+}

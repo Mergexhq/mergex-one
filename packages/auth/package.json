@@ -1,0 +1,16 @@
+{
+    "version":  "0.1.0",
+    "name":  "@mergex/auth",
+    "main":  "./dist/index.js",
+    "scripts":  {
+                    "build":  "tsc"
+                },
+    "dependencies":  {
+                         "typescript":  "^5",
+                         "@clerk/nextjs":  "^6.0.0",
+                         "@casl/react":  "^3.1.0",
+                         "@casl/ability":  "^6.7.0"
+                     },
+    "types":  "./dist/index.d.ts",
+    "private":  true
+}

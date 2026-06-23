@@ -1,0 +1,14 @@
+{
+    "version":  "0.1.0",
+    "name":  "@mergex/email",
+    "main":  "./dist/index.js",
+    "scripts":  {
+                    "build":  "tsc"
+                },
+    "dependencies":  {
+                         "resend":  "^4.0.0",
+                         "typescript":  "^5"
+                     },
+    "types":  "./dist/index.d.ts",
+    "private":  true
+}

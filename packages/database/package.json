@@ -1,0 +1,14 @@
+{
+    "version":  "0.1.0",
+    "name":  "@mergex/database",
+    "main":  "./dist/index.js",
+    "scripts":  {
+                    "build":  "tsc"
+                },
+    "dependencies":  {
+                         "@prisma/client":  "^7.8.0",
+                         "typescript":  "^5"
+                     },
+    "types":  "./dist/index.d.ts",
+    "private":  true
+}

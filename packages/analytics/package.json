@@ -1,0 +1,13 @@
+{
+    "version":  "0.1.0",
+    "name":  "@mergex/analytics",
+    "main":  "./dist/index.js",
+    "scripts":  {
+                    "build":  "tsc"
+                },
+    "dependencies":  {
+                         "typescript":  "^5"
+                     },
+    "types":  "./dist/index.d.ts",
+    "private":  true
+}
